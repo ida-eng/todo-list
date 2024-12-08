@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="todo">
+        <h2>To-Do List</h2>
+        <div class="input">
+            <input type="text" id="todoInput" class="input-field" placeholder="Add a new task" />
+            <input type="date" id="todoDate" class="date-picker" />
+            <select id="priority" class="priority-picker">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button id="addButton" class="btn">Add</button>
+        </div>
+        <ul id="todoList"></ul>
+        <div class="filters">
+            <button class="btn filter" data-filter="all">All</button>
+            <button class="btn filter" data-filter="completed">Completed</button>
+            <button class="btn filter" data-filter="incomplete">Incomplete</button>
+        </div>
+        <hr class="counter" />
+        <div class="counter-container">
+            <p><span id="totalCount">0</span> items total</p>
+            <button id="deleteAll" class="btn">Delete All</button>
+        </div>
+    </section>
+    <footer>
+        <p class="footer">Made by Aida Topalli</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
