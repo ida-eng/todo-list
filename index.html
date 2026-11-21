@@ -3,37 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced To-Do List</title>
+    <title>Tasks · Aida Topalli</title>
+    <meta name="description" content="A fast, offline task manager with priorities, due dates, categories, search, drag-and-drop and dark mode.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23b9a6ff'/><path d='M9 16.5l4.5 4.5L23 11.5' stroke='%231f1b2d' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    <script>try{const t=localStorage.getItem('tasks.theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
-    <section class="todo">
-        <h2>To-Do List</h2>
-        <div class="input">
-            <input type="text" id="todoInput" class="input-field" placeholder="Add a new task" />
-            <input type="date" id="todoDate" class="date-picker" />
-            <select id="priority" class="priority-picker">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-            <button id="addButton" class="btn">Add</button>
+<div class="app">
+    <aside class="side" aria-label="Views">
+        <div class="brand"><span class="logo" aria-hidden="true">✓</span><b>Tasks</b></div>
+        <nav class="views" id="views"></nav>
+        <p class="side-h">Categories</p>
+        <nav class="views" id="cats"></nav>
+        <div class="side-foot">
+            <button class="ghost" id="exportBtn" type="button">Export</button>
+            <label class="ghost" for="importFile">Import</label>
+            <input type="file" id="importFile" accept="application/json" hidden>
+            <button class="ghost icon" id="themeBtn" type="button" aria-label="Toggle dark mode">☾</button>
         </div>
-        <ul id="todoList"></ul>
-        <div class="filters">
-            <button class="btn filter" data-filter="all">All</button>
-            <button class="btn filter" data-filter="completed">Completed</button>
-            <button class="btn filter" data-filter="incomplete">Incomplete</button>
+    </aside>
+
+    <main class="main">
+        <header class="top">
+            <div>
+                <p class="date" id="today"></p>
+                <h1 id="title">All tasks</h1>
+            </div>
+            <div class="ring" id="ring" role="img" aria-label="Progress">
+                <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="track"/><circle cx="22" cy="22" r="18" class="fill" id="ringFill"/></svg>
+                <span id="ringText">0%</span>
+            </div>
+        </header>
+
+        <section class="stats" id="stats" aria-label="Summary"></section>
+
+        <form class="add" id="addForm" autocomplete="off">
+            <input id="newTitle" class="add-title" type="text" placeholder="Add a task… (press N)" maxlength="200" aria-label="Task title" required>
+            <div class="add-row">
+                <label class="field"><span>Due</span><input id="newDue" type="date"></label>
+                <label class="field"><span>Priority</span>
+                    <select id="newPriority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select>
+                </label>
+                <label class="field"><span>Category</span><select id="newCategory"></select></label>
+                <button class="primary" type="submit">Add task</button>
+            </div>
+        </form>
+
+        <div class="toolbar">
+            <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search (press /)" aria-label="Search tasks"></label>
+            <label class="field inline"><span>Sort</span>
+                <select id="sort">
+                    <option value="manual">My order</option>
+                    <option value="due">Due date</option>
+                    <option value="priority">Priority</option>
+                    <option value="newest">Newest</option>
+                    <option value="az">A–Z</option>
+                </select>
+            </label>
+            <button class="ghost" id="clearDone" type="button">Clear completed</button>
         </div>
-        <hr class="counter" />
-        <div class="counter-container">
-            <p><span id="totalCount">0</span> items total</p>
-            <button id="deleteAll" class="btn">Delete All</button>
+
+        <ul class="list" id="list" aria-live="polite"></ul>
+        <div class="empty" id="empty" hidden>
+            <div class="empty-art" aria-hidden="true">✓</div>
+            <b id="emptyTitle">Nothing here</b>
+            <p id="emptyText">Add a task above to get started.</p>
         </div>
-    </section>
-    <footer>
-        <p class="footer">Made by Aida Topalli</p>
-    </footer>
-    <script src="script.js"></script>
+
+        <footer class="foot">Built by <a href="https://ida-eng.github.io/portfolio/">Aida Topalli</a> · Vanilla JavaScript, saved in your browser · <kbd>N</kbd> new · <kbd>/</kbd> search · double-click to edit</footer>
+    </main>
+</div>
+
+<div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" id="toastUndo">Undo</button></div>
+
+<script type="module" src="src/app.js"></script>
 </body>
 </html>
